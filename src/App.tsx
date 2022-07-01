@@ -1,25 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {RootReducer} from "./redux/store";
+import {loadBeersRequest} from "./redux/beers-state/beers-action-creators";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import MyProducts from "./components/myProducts";
+import Statictics from "./components/statictics";
+import JsonForm from "./components/jsonForm";
+import Navigation from "./layouts/navigation";
+
 
 function App() {
+
+  const dispatch = useDispatch()
+  const {beers} = useSelector((state:RootReducer) => state.beers)
+
+  useEffect(() => {
+    dispatch(loadBeersRequest())
+
+  },[])
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Navigation>
+        <Routes>
+          <Route path={'/products'} element={<MyProducts/>}/>
+          <Route path={'/'} element={<Statictics/>}/>
+          <Route path={'/form'} element={<JsonForm/>}/>
+        </Routes>
+      </Navigation>
+    </BrowserRouter>
   );
 }
 
