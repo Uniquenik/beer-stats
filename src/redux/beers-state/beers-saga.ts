@@ -5,11 +5,10 @@ import {beersActionTypes} from "./beers-action-types";
 import {$api, ENDPOINTS} from "../../service";
 import {loadBeersFailure, loadBeersSuccess} from "./beers-action-creators";
 
-function* loadBeers(action:Action):SagaIterator {
+function* loadBeers( action:Action):SagaIterator {
     try{
-        //const response = yield call(() => $api.get<Beer[]>(ENDPOINTS.GET_BEERS()))
-        //console.log(response)
-        yield put(loadBeersSuccess([]))
+        const response = yield call(() => $api.get<Beer[]>(ENDPOINTS.GET_BEERS()))
+        yield put(loadBeersSuccess(response.data))
     }
     catch (e:unknown){
         if (e instanceof Error) yield put(loadBeersFailure(e.message))

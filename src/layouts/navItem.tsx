@@ -12,8 +12,12 @@ const NavItem = (props: {
     const navigate = useNavigate()
 
     return (
-        <Stack onClick={() => navigate(props.path)} color={props.active ? 'rgba(83, 130, 231, 0.4)' : 'rgba(43, 56, 68, 0.4)'}
-               style={{
+        <Stack onClick={() => navigate(props.path)}
+               color={props.active ? 'rgba(83, 130, 231, 1)' : 'rgba(43, 56, 68, 0.4)'}
+               sx={{
+                   '&:hover': {
+                       background: "rgba(83, 130, 231, 0.04)",
+                   },
                    borderRight: props.active ? '2px solid #5382E7' : 'none',
                    backgroundColor: props.active ?'rgba(83, 130, 231, 0.04)' : 'white',
                }}

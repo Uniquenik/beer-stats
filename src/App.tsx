@@ -1,37 +1,27 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {RootReducer} from "./redux/store";
-import {loadBeersRequest} from "./redux/beers-state/beers-action-creators";
+import React from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import MyProducts from "./components/myProducts";
-import Statictics from "./components/statictics";
-import JsonForm from "./components/jsonForm";
+import MyProducts from "./pages/myProducts";
+import Statictics from "./pages/statistics";
+import JsonForm from "./pages/jsonForm";
 import Navigation from "./layouts/navigation";
+import {Box} from "@mui/material";
 
 
 function App() {
 
-  const dispatch = useDispatch()
-  const {beers} = useSelector((state:RootReducer) => state.beers)
-
-  useEffect(() => {
-    dispatch(loadBeersRequest())
-
-  },[])
-
-
-
-  return (
-    <BrowserRouter>
-      <Navigation>
-        <Routes>
-          <Route path={'/products'} element={<MyProducts/>}/>
-          <Route path={'/'} element={<Statictics/>}/>
-          <Route path={'/form'} element={<JsonForm/>}/>
-        </Routes>
-      </Navigation>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <Navigation>
+                <Box px={6} py={7}>
+                    <Routes>
+                        <Route path={'/products'} element={<MyProducts/>}/>
+                        <Route path={'/'} element={<Statictics/>}/>
+                        <Route path={'/form'} element={<JsonForm/>}/>
+                    </Routes>
+                </Box>
+            </Navigation>
+        </BrowserRouter>
+    );
 }
 
 export default App;
