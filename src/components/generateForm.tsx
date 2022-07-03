@@ -36,6 +36,10 @@ const GenerateForm = (props: { jsonData: JsonInput[] }) => {
     useEffect(() => {
         //чтобы успеть инициализировать все поля при изменении
         setPage(0)
+        setValues({})
+        setErrors({})
+        setErrorsMsg({})
+        setShowError(false)
     },[props.jsonData])
 
 
