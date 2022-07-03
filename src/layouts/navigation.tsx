@@ -25,8 +25,8 @@ const navElements = [
     {
         id: 3,
         icon: Sales,
-        title: 'My sales',
-        path: '/sales'
+        title: 'Form here',
+        path: '/form'
     },
     {
         id: 4,

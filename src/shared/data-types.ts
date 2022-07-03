@@ -52,6 +52,17 @@ type Action = {
     payload: any
 }
 
+type JsonInput = {
+    name: string,
+    label: string,
+    type: string,
+    max_length?: number,
+    min_length?: number,
+    regex?: string,
+    min?: number,
+    max?: number
+}
+
 export type {
-    Beer, Action
+    Beer, Action, JsonInput
 }
