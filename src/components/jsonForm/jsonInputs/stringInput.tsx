@@ -1,4 +1,4 @@
-import {JsonInput} from "../../shared/data-types";
+import {JsonInput} from "../../../shared/data-types";
 import {TextField} from "@mui/material";
 import {ChangeEvent} from "react";
 

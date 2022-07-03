@@ -2,7 +2,7 @@ import {Beer} from "../../shared/data-types";
 
 type BeersState = {
     loading: boolean,
-    error: '',
+    error: string,
     beers: Beer[]
 }
 

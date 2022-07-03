@@ -18,6 +18,7 @@ const NavItem = (props: {
                    '&:hover': {
                        background: "rgba(83, 130, 231, 0.04)",
                    },
+                   cursor: 'pointer',
                    borderRight: props.active ? '2px solid #5382E7' : 'none',
                    backgroundColor: props.active ?'rgba(83, 130, 231, 0.04)' : 'white',
                }}

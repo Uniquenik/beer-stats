@@ -1,5 +1,5 @@
 import Create from "./images/create.svg";
-import PageHeader from "../components/pageHeader";
+import PageHeader from "../shared/pageHeader";
 import {Button, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducer} from "../redux/store";
@@ -8,13 +8,14 @@ import {loadBeersRequest} from "../redux/beers-state/beers-action-creators";
 import {ReactComponent as Edit} from "./images/Edit.svg"
 import {ReactComponent as Delete} from "./images/Delete.svg"
 import Loader from "../shared/loader";
+import ErrorModal from "../shared/errorModal";
 
 const tableHeader = ["Title", "Description", "First brewed", "Volume", "Contributed by", "Actions"]
 
 
 const MyProducts = () => {
     const dispatch = useDispatch()
-    const {loading, beers} = useSelector((state: RootReducer) => state.beers)
+    const {loading, beers, error} = useSelector((state: RootReducer) => state.beers)
 
     useEffect(() => {
         dispatch(loadBeersRequest())
@@ -25,6 +26,7 @@ const MyProducts = () => {
 
     return (
         <>
+            <ErrorModal error={error} isOpen={error ? true : false}/>
             <PageHeader
                 title={'My product'}
                 subtitle={'Product table'}

@@ -1,9 +1,9 @@
-import {JsonInput} from "../shared/data-types";
+import {JsonInput} from "../../shared/data-types";
 import {FormEvent, useEffect, useState} from "react";
 import StringInput from "./jsonInputs/stringInput";
 import NumberInput from "./jsonInputs/numberInput";
 import {Button, Divider, Grid, Stack, Step, StepLabel, Stepper, Typography} from "@mui/material";
-import {numberValidate, stringValidate} from "./jsonInputs/validate";
+import {numberValidate, stringValidate} from "./validate";
 
 const GenerateForm = (props: { jsonData: JsonInput[] }) => {
 
@@ -11,8 +11,8 @@ const GenerateForm = (props: { jsonData: JsonInput[] }) => {
     const [currentPageData, setCurrentPageData] = useState<JsonInput>(props.jsonData[page]);
     const [values, setValues] = useState<{ [key: string]: string | number }>({});
 
-    const [errors, setErrors] = useState<{[key: string]: boolean }>({})
-    const [errorsMsg, setErrorsMsg] = useState<{[key: string]: string }>({})
+    const [errors, setErrors] = useState<{ [key: string]: boolean }>({})
+    const [errorsMsg, setErrorsMsg] = useState<{ [key: string]: string }>({})
     const [showError, setShowError] = useState(false)
 
     const {name} = currentPageData;
@@ -27,7 +27,9 @@ const GenerateForm = (props: { jsonData: JsonInput[] }) => {
             setErrors(currentErrors => {
                 return {...currentErrors, [name]: true}
             })
-            setErrorsMsg(currentErrorsMsg => {return {...currentErrorsMsg, [name]: 'Empty string'}})
+            setErrorsMsg(currentErrorsMsg => {
+                return {...currentErrorsMsg, [name]: 'Empty string'}
+            })
         }
         setCurrentPageData(upcomingPageData);
     }, [page]);
@@ -40,7 +42,7 @@ const GenerateForm = (props: { jsonData: JsonInput[] }) => {
         setErrors({})
         setErrorsMsg({})
         setShowError(false)
-    },[props.jsonData])
+    }, [props.jsonData])
 
 
     const fieldChanged = (data: JsonInput, newValue: string | number) => {
@@ -48,13 +50,20 @@ const GenerateForm = (props: { jsonData: JsonInput[] }) => {
         //проверка на условия
         if (type.toLowerCase() === 'number') {
             const {result, msg} = numberValidate(data, Number(newValue))
-            setErrors(currentValues => {return {...currentValues, [name]: result}})
-            setErrorsMsg(currentValues => {return {...currentValues, [name]: msg}})
-        }
-        else {
+            setErrors(currentValues => {
+                return {...currentValues, [name]: result}
+            })
+            setErrorsMsg(currentValues => {
+                return {...currentValues, [name]: msg}
+            })
+        } else {
             const {result, msg} = stringValidate(data, newValue.toString())
-            setErrors(currentValues => {return {...currentValues, [name]: result}})
-            setErrorsMsg(currentValues => {return {...currentValues, [name]: msg}})
+            setErrors(currentValues => {
+                return {...currentValues, [name]: result}
+            })
+            setErrorsMsg(currentValues => {
+                return {...currentValues, [name]: msg}
+            })
         }
         //запись значения (пишем в любом случае, чтобы пользователь не терял введенные данные
         setValues((currentValues) => {
@@ -74,8 +83,7 @@ const GenerateForm = (props: { jsonData: JsonInput[] }) => {
         let booleanArray = Object.values(errors)
         if (booleanArray.every(el => !el)) {
             console.log(values)
-        }
-        else {
+        } else {
             //подчеркиваем их
             setShowError(true)
         }
@@ -86,16 +94,12 @@ const GenerateForm = (props: { jsonData: JsonInput[] }) => {
             <Typography variant={'h4'} align={'center'}>Generated form:</Typography>
             <Stepper sx={{padding: '32px 0'}} activeStep={page}>
                 {props.jsonData.map((el, index) => {
-                    if (showError && errors[el.name]) {
-                        return (
-                            <Step unselectable={'on'} key={el.name} onClick={() => setPage(index)}>
-                                <StepLabel error={true}>{el.label}</StepLabel>
-                            </Step>
-                        );
-                    }
                     return (
-                        <Step unselectable={'on'} key={el.name} onClick={() => setPage(index)}>
-                            <StepLabel>{el.label}</StepLabel>
+                        <Step unselectable={'on'}
+                              key={el.name}
+                              sx={{cursor: 'pointer'}}
+                              onClick={() => setPage(index)}>
+                            <StepLabel error={showError && errors[el.name]}>{el.label}</StepLabel>
                         </Step>
                     );
                 })}
@@ -108,7 +112,7 @@ const GenerateForm = (props: { jsonData: JsonInput[] }) => {
                                 data={currentPageData}
                                 error={showError && errors[name]}
                                 errorText={errorsMsg[name]}
-                                value={ values[name].toString()}
+                                value={values[name].toString()}
                                 onChangeValue={fieldChanged}/>
                             :
                             <StringInput
@@ -127,10 +131,12 @@ const GenerateForm = (props: { jsonData: JsonInput[] }) => {
                     </Grid>
                     <Grid item xs={6}>
                         {page < props.jsonData.length - 1 &&
-                            <Button variant={'outlined'} fullWidth onClick={() => navigatePages(true)}>Продолжить</Button>}
+                            <Button variant={'outlined'} fullWidth
+                                    onClick={() => navigatePages(true)}>Продолжить</Button>}
                     </Grid>
                 </Grid>
-                {page === props.jsonData.length -1 && <Button fullWidth variant={'contained'} type={'submit'} color={'success'}>Отправить</Button> }
+                {page === props.jsonData.length - 1 &&
+                    <Button fullWidth variant={'contained'} type={'submit'} color={'success'}>Отправить</Button>}
             </Grid>
         </form>
     );

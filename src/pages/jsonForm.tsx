@@ -3,25 +3,25 @@ import {useState} from "react";
 import {defaultjson} from "../shared/defaultjson";
 import {JsonInput} from "../shared/data-types";
 import {checkJson} from "../shared/checkJson";
-import GenerateForm from "../components/generateForm";
+import GenerateForm from "../components/jsonForm/generateForm";
 
 const JsonForm = () => {
     const [localJsonValue, setLocalJsonValue] = useState<JsonInput[]>(() => defaultjson)
     const [jsonValue, setJsonValue] = useState<JsonInput[]>(() => defaultjson)
-    const [errorValue, setErrorValue] = useState(false)
+    const [isError, setIsError] = useState(false)
 
     const handleChange = (e:any) => {
         if (checkJson(e.target.value)) {
-            setErrorValue(false)
+            setIsError(false)
             setLocalJsonValue(JSON.parse(e.target.value))
         }
         else {
-            setErrorValue(true)
+            setIsError(true)
         }
     }
 
     const generateForm = () => {
-        if (!errorValue) setJsonValue(localJsonValue)
+        if (!isError) setJsonValue(localJsonValue)
     }
 
     return(
@@ -29,8 +29,8 @@ const JsonForm = () => {
             <Grid container spacing={4}>
                 <Grid item xs={4}>
                     <TextField
-                        error={errorValue}
-                        helperText={errorValue ? 'Incorrect JSON' : "Input some JSON here"}
+                        error={isError}
+                        helperText={isError ? 'Incorrect JSON' : "Print some JSON here"}
                         sx={{width:'100%'}}
                         id="json-input"
                         label="Json input"
@@ -40,7 +40,7 @@ const JsonForm = () => {
                         defaultValue={JSON.stringify(jsonValue, null, 4)}
                         variant="standard"
                     />
-                    <Button disabled={errorValue}
+                    <Button disabled={isError}
                             onClick={() => generateForm()}
                             fullWidth
                             sx={{margin:'16px 0'}}
